@@ -1,0 +1,4 @@
+- npm install -d tailwindcss postcss autoprefixer
+- npx tailwindcss init -p 
+- npm install react-icons
+- npm install react-router-dom
