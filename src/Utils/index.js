@@ -14,7 +14,7 @@ const InitialData = [
     income: false,
   },
   {
-    id: 4,
+    id: 3,
     title: "Beli Nasi",
     date: "9 Juni 2023",
     balance: 10000,

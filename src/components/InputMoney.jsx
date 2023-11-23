@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const InputMoney = ({ income }) => {
+const InputMoney = ({ income, addMoney }) => {
   const [money, setMoney] = useState({
     title: "",
     totalMoney: "",
@@ -16,10 +16,14 @@ const InputMoney = ({ income }) => {
     console.log(money);
   };
 
+  const onHandleAdd = () => {
+    addMoney(money);
+  };
+
   return (
-    <div className="m-6">
-      <form action="" className="flex flex-col mx-8">
-        <label htmlFor="title" className="my-2">
+    <div className="w-96  mx-auto">
+      <div className="flex flex-col mt-12">
+        <label htmlFor="title" className="mt-2">
           Judul
         </label>
         <input
@@ -31,7 +35,7 @@ const InputMoney = ({ income }) => {
           value={money.title}
           onChange={handleInputChange}
         />
-        <label htmlFor="otalMoney" className="my-2">
+        <label htmlFor="otalMoney" className="mt-2">
           Jumlah
         </label>
         <input
@@ -46,10 +50,11 @@ const InputMoney = ({ income }) => {
         <button
           className="bg-blue-700 text-white py-2 my-6 rounded hover:bg-blue-600"
           type="submit"
+          onClick={onHandleAdd}
         >
           Kirim
         </button>
-      </form>
+      </div>
     </div>
   );
 };
