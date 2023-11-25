@@ -1,4 +1,4 @@
-const InitialData = [
+const InitialData = () => [
   {
     id: 1,
     title: "Menerima Uang",
@@ -20,6 +20,23 @@ const InitialData = [
     balance: 10000,
     income: false,
   },
+  {
+    id: 4,
+    title: "Beli Nasi",
+    date: "9 Juni 2023",
+    balance: 10000,
+    income: false,
+  },
 ];
 
-export { InitialData };
+const showFormattedDate = (date) => {
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  return new Date(date).toLocaleDateString("id-ID", options);
+};
+
+export { InitialData, showFormattedDate };
