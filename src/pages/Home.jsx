@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import { InitialData } from "../Utils";
 
 import Button from "../components/Button";
 import CardStatus from "../components/CardStatus";
 import Header from "../components/Header";
 import InputMoney from "../components/InputMoney";
 import ListItems from "../components/ListItems";
+import { InitialData } from "../Utils";
 
 const Home = () => {
+  // const local = localStorage.getItem("userMoney");
   const [moneys, setMoneys] = useState(InitialData());
   const [inputPlus, setInputPlus] = useState(false);
   const [inputMinus, setInputMinus] = useState(false);
@@ -17,9 +18,11 @@ const Home = () => {
 
   const getTotalPlus = (data) => {
     let total = 0;
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].income === true) {
-        total += data[i].balance;
+    if (data !== null) {
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].income === true) {
+          total += data[i].balance;
+        }
       }
     }
     return total;
@@ -27,19 +30,23 @@ const Home = () => {
 
   const getTotalMinus = (data) => {
     let total = 0;
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].income === false) {
-        total += data[i].balance;
+    if (data !== null) {
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].income === false) {
+          total += data[i].balance;
+        }
       }
     }
     return total;
   };
 
   const formatCurrency = (number) => {
-    return new Number(number).toLocaleString("id-ID", {
+    const formatedNumber = new Number(number).toLocaleString("id-ID", {
       style: "currency",
       currency: "IDR",
     });
+
+    return formatedNumber.replace(/,00$/, "");
   };
 
   const onAddMoney = ({ title, balance, income }) => {
@@ -54,6 +61,7 @@ const Home = () => {
       },
     ]);
     console.log(moneys);
+    // localStorage.setItem("userMoney", JSON.stringify([moneys]));
     setInputPlus(false);
     setInputMinus(false);
   };
@@ -71,6 +79,8 @@ const Home = () => {
     setTotal(total);
     setTotalPlus(totalPlus);
     setTotalMinus(totalMinus);
+    // console.log(local);
+    console.log(moneys);
   });
   return (
     <div className="relative">
@@ -97,7 +107,7 @@ const Home = () => {
         </div>
       </div>
       <div className="flex flex-col items-center my-8 gap-3">
-        {moneys.length === 0 ? (
+        {moneys === null ? (
           <p>Data Kosong</p>
         ) : (
           <ListItems
@@ -113,6 +123,7 @@ const Home = () => {
           income={true}
           action={onAddMoney}
           cancel={() => setInputPlus(false)}
+          format={formatCurrency}
         />
       ) : null}
       {inputMinus ? (
@@ -121,6 +132,7 @@ const Home = () => {
           income={false}
           action={onAddMoney}
           cancel={() => setInputMinus(false)}
+          format={formatCurrency}
         />
       ) : null}
     </div>

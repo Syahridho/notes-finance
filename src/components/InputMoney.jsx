@@ -1,22 +1,41 @@
 import { useState } from "react";
 
-const InputMoney = ({ title, action, cancel, income }) => {
+const InputMoney = ({ title, action, cancel, income, format }) => {
   const [input, setInput] = useState({
     title: "",
     balance: 0,
     income: income,
   });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const handleInputChangeTitle = (e) => {
     setInput({
       ...input,
-      [name]: value,
+      title: e.target.value,
     });
     console.log(input);
   };
 
-  const color = income ? "blue" : "red";
+  const handleInputChangePrice = (e) => {
+    setInput({
+      ...input,
+      balance: e.target.value,
+    });
+    console.log(input);
+  };
+
+  const handleOnSubmit = () => {
+    action(input);
+  };
+
+  const plus =
+    "py-2 bg-blue-500 text-white rounded shadow border border-blue-500 transition duration-500 hover:bg-blue-700";
+  const minus =
+    "py-2 bg-red-500 text-white rounded shadow border border-red-500 transition duration-500 hover:bg-red-700";
+  const plusCancel =
+    "py-2 bg-white text-blue-500 rounded shadow border border-blue-500 transition duration-500 hover:bg-blue-500 hover:text-white";
+  const minusCancel =
+    "py-2 bg-white text-red-500 rounded shadow border border-red-500 transition duration-500 hover:bg-red-500 hover:text-white";
+
   return (
     <div className="absolute flex flex-col bg-transparent w-[96vw]  h-screen top-0 left-0">
       <div className="w-96 flex flex-col gap-4 bg-white px-4 py-8 mx-auto my-auto  border rounded shadow-lg">
@@ -27,27 +46,28 @@ const InputMoney = ({ title, action, cancel, income }) => {
             type="text"
             name="title"
             className="border p-1"
-            onChange={handleInputChange}
+            value={input.title}
+            onChange={handleInputChangeTitle}
+            placeholder="nama"
           />
         </div>
         <div className="flex flex-col">
           <label htmlFor="balance">Harga</label>
           <input
-            type="number"
+            type="text"
             name="balance"
             className="border p-1"
-            onChange={handleInputChange}
+            value={input.balance}
+            onChange={handleInputChangePrice}
+            placeholder="0"
           />
         </div>
         <div className="flex flex-col gap-2">
-          <button
-            className={`py-2 bg-${color}-500 text-white rounded shadow border border-${color}-500 transition duration-500 hover:bg-${color}-700`}
-            onClick={() => action(input)}
-          >
+          <button className={income ? plus : minus} onClick={handleOnSubmit}>
             {title}
           </button>
           <button
-            className={`py-2 bg-white text-${color}-500 rounded shadow border border-${color}-500 transition duration-500 hover:bg-${color}-500 hover:text-white`}
+            className={income ? plusCancel : minusCancel}
             onClick={cancel}
           >
             Batalkan
